@@ -131,7 +131,7 @@
     <div class="stage">
       <div>
         <button id="yesBtn">Yes 💖</button>
-        <button id="noBtn">No 🙃</button>
+        <button id="noBtn">No 😤 </button>
       </div>
     </div>
 
@@ -151,45 +151,50 @@
 
   <div class="confetti" id="confetti"></div>
 
-  <script>
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    const result = document.getElementById('result');
-    const noResult = document.getElementById('noResult');
-    const confetti = document.getElementById('confetti');
+ <script>
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const result = document.getElementById('result');
+  const noResult = document.getElementById('noResult');
+  const confetti = document.getElementById('confetti');
 
-    function launchConfetti(count = 120) {
-      confetti.innerHTML = "";
-      const colors = ["#ff3b7a","#ffb703","#8ecae6","#c77dff","#34d399"];
+  function launchHearts(count = 80) {
+    confetti.innerHTML = "";
 
-      for (let i = 0; i < count; i++) {
-        const p = document.createElement("div");
-        p.className = "piece";
-        p.style.left = Math.random() * 100 + "vw";
-        p.style.background = colors[Math.floor(Math.random()*colors.length)];
-        p.style.animationDuration = (Math.random()*2 + 2) + "s";
-        confetti.appendChild(p);
-      }
+    for (let i = 0; i < count; i++) {
+      const heart = document.createElement("div");
+      heart.textContent = "❤️";
+      heart.style.position = "absolute";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = "-20px";
+      heart.style.fontSize = (Math.random() * 20 + 16) + "px";
+      heart.style.animation = `fall ${Math.random()*2+2}s linear forwards`;
 
-      setTimeout(() => confetti.innerHTML = "", 4000);
+      confetti.appendChild(heart);
     }
 
-    // YES
-    yesBtn.addEventListener("click", () => {
-      result.classList.add("show");
-      noResult.style.display = "none";
-      launchConfetti();
-      noBtn.style.display = "none";
-      yesBtn.textContent = "Yes 💖";
-      yesBtn.disabled = true;
-    });
+    setTimeout(() => confetti.innerHTML = "", 4000);
+  }
 
-    // NO (nouveau comportement)
-    noBtn.addEventListener("click", () => {
-      noBtn.style.display = "none";        // disparaît
-      noResult.classList.add("show");     // message
-    });
-  </script>
+  // YES
+  yesBtn.addEventListener("click", () => {
+    result.classList.add("show");
+    noResult.style.display = "none";
+
+    launchHearts(); // ❤️ pluie de coeurs
+
+    noBtn.style.display = "none";
+    yesBtn.textContent = "Yes 💖";
+    yesBtn.disabled = true;
+  });
+
+  // NO
+  noBtn.addEventListener("click", () => {
+    noBtn.style.display = "none";
+    noResult.classList.add("show");
+  });
+</script>
+
 
 </body>
 </html>
