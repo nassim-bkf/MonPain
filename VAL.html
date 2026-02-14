@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentine?</title>
+  <style>
+    :root{
+      --bg1:#ffdde1;
+      --bg2:#ee9ca7;
+      --card:#ffffffcc;
+      --text:#1f1f1f;
+      --yes:#22c55e;
+      --no:#ef4444;
+      --shadow: 0 20px 60px rgba(0,0,0,.15);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 20% 10%, #fff 0%, var(--bg1) 35%, var(--bg2) 100%);
+      overflow:hidden;
+    }
+
+    .card{
+      width:min(720px, 92vw);
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      padding: 28px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    h1{
+      margin:0;
+      font-size: clamp(26px, 4vw, 44px);
+      text-align:center;
+    }
+
+    p{
+      text-align:center;
+      opacity:.85;
+    }
+
+    .stage{
+      margin-top: 22px;
+      position: relative;
+      height: 160px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    button{
+      border:none;
+      padding: 14px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 999px;
+      cursor:pointer;
+      box-shadow: 0 12px 30px rgba(0,0,0,.12);
+    }
+
+    #yesBtn{
+      background: linear-gradient(180deg, #34d399, var(--yes));
+      color:white;
+    }
+
+    #noBtn{
+      background: linear-gradient(180deg, #fb7185, var(--no));
+      color:white;
+      margin-left: 15px;
+    }
+
+    .result{
+      margin-top: 18px;
+      text-align:center;
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+    }
+    .result.show{ display:flex; }
+
+    .badge{
+      padding: 10px 14px;
+      background: white;
+      border-radius: 999px;
+      font-weight:700;
+      box-shadow: 0 10px 22px rgba(0,0,0,.10);
+    }
+
+    .small{
+      opacity:.8;
+    }
+
+    /* Confetti */
+    .confetti{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .piece{
+      position:absolute;
+      width:10px;
+      height:14px;
+      top:-20px;
+      border-radius: 3px;
+      animation: fall linear forwards;
+    }
+    @keyframes fall{
+      to{
+        transform: translateY(110vh) rotate(720deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Will you be my Valentine? 💘</h1>
+    <p>Allez dis oui mon pain !  🥺</p>
+
+    <div class="stage">
+      <div>
+        <button id="yesBtn">Yes 💖</button>
+        <button id="noBtn">No 🙃</button>
+      </div>
+    </div>
+
+    <!-- YES RESULT -->
+    <div class="result" id="result">
+      <p> </p>
+      <div class="badge">YAAY! Je t'aime mon pain 💘</div>
+      <div class="small"></div>
+    </div>
+
+    <!-- NO RESULT -->
+    <div class="result" id="noResult">
+      <div class="badge">heyyy attentionnnnn 😞</div>
+      <div class="small"> Allez t'as une deuxième chance ! </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const result = document.getElementById('result');
+    const noResult = document.getElementById('noResult');
+    const confetti = document.getElementById('confetti');
+
+    function launchConfetti(count = 120) {
+      confetti.innerHTML = "";
+      const colors = ["#ff3b7a","#ffb703","#8ecae6","#c77dff","#34d399"];
+
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement("div");
+        p.className = "piece";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.background = colors[Math.floor(Math.random()*colors.length)];
+        p.style.animationDuration = (Math.random()*2 + 2) + "s";
+        confetti.appendChild(p);
+      }
+
+      setTimeout(() => confetti.innerHTML = "", 4000);
+    }
+
+    // YES
+    yesBtn.addEventListener("click", () => {
+      result.classList.add("show");
+      noResult.style.display = "none";
+      launchConfetti();
+      noBtn.style.display = "none";
+      yesBtn.textContent = "Yes 💖";
+      yesBtn.disabled = true;
+    });
+
+    // NO (nouveau comportement)
+    noBtn.addEventListener("click", () => {
+      noBtn.style.display = "none";        // disparaît
+      noResult.classList.add("show");     // message
+    });
+  </script>
+
+</body>
+</html>
